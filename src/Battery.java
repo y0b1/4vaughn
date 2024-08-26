@@ -13,8 +13,10 @@ public class Battery {
         return percentage;
     }
 
-    public void chargeToFull() {
-        percentage = 100;
+    public void chargeByOne() {
+        if (percentage < 100) {
+            percentage++;
+        }
     }
 
     public void dischargeByOne() {
@@ -33,5 +35,14 @@ public class Battery {
 
     public String displayStatus() {
         return "Battery: " + percentage + "%";
+    }
+
+    public String displayVisualRepresentation() {
+        int fullBars = percentage / 5;
+        StringBuilder bars = new StringBuilder();
+        for (int i = 0; i < fullBars; i++) {
+            bars.append("/");
+        }
+        return bars.toString();
     }
 }
