@@ -57,7 +57,7 @@ public class BatteryGUI {
             }
         });
 
-        chargeTimer = new Timer(1000, new ActionListener() {
+        chargeTimer = new Timer(800, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 battery.chargeByOne();
