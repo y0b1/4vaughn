@@ -18,7 +18,7 @@ public class BatteryGUI {
         battery = new Battery(100);
 
         JFrame frame = new JFrame("Battery Percentage Simulator");
-        frame.setSize(400, 200);
+        frame.setSize(400, 400); // Maintain the original window size
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.getContentPane().setBackground(Color.DARK_GRAY);
@@ -39,17 +39,29 @@ public class BatteryGUI {
         indicatorDotLabel.setForeground(Color.RED);
         frame.add(indicatorDotLabel);
 
+        ImageIcon imageIcon = new ImageIcon("/home/yobi/4vaughn/src/BARTSAD.jpeg");
+        Image scaledImage = imageIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+        imageLabel.setBounds(50, 90, 300, 200);
+        frame.add(imageLabel);
+
         toggleButton = new JToggleButton("Plug in Charger");
-        toggleButton.setBounds(45, 100, 140, 30);
+        toggleButton.setBounds(45, 300, 140, 30);
         frame.add(toggleButton);
 
         onButton = new JButton("On");
-        onButton.setBounds(210, 100, 60, 30);
+        onButton.setBounds(210, 300, 60, 30);
         frame.add(onButton);
-        
+
         offButton = new JButton("Off");
-        offButton.setBounds(275, 100, 60, 30);
+        offButton.setBounds(275, 300, 60, 30); // Adjusted to fit below the image
         frame.add(offButton);
+
+        JButton overloadButton = new JButton("Overload");
+        overloadButton.setBounds(150, 340, 100, 30); // Adjusted to fit below the image
+        overloadButton.setBackground(Color.RED);
+        overloadButton.setForeground(Color.WHITE);
+        frame.add(overloadButton);
 
         toggleButton.addActionListener(new ActionListener() {
             @Override
@@ -79,6 +91,14 @@ public class BatteryGUI {
             public void actionPerformed(ActionEvent e) {
                 battery.turnOff();
                 indicatorDotLabel.setForeground(Color.RED);
+            }
+        });
+
+        overloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "BOOM your phone overloaded!");
+                System.exit(0);
             }
         });
 
