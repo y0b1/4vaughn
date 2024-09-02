@@ -1,20 +1,22 @@
 public class Battery {
     private int percentage;
+    private boolean isActive;
 
-    //Creator
+    // Constructor
     public Battery(int initialPercentage) {
-        if (initialPercentage >= 0 && initialPercentage <= 100) {
-            this.percentage = initialPercentage;
-        } else {
+        if(initialPercentage < 0 || initialPercentage > 100) {
             this.percentage = 100;
+        } else {
+            this.percentage = initialPercentage;
         }
+        this.isActive = false;
     }
 
-    //Observers
+    // Observers
     public int getPercentage() {
         return percentage;
     }
-    
+
     public boolean isFullyCharged() {
         return percentage == 100;
     }
@@ -24,20 +26,32 @@ public class Battery {
     }
 
     public String displayStatus() {
-        return "Battery: " + percentage + "%";
+        return "Battery at " + percentage + "%";
     }
 
-    //Transformers
+    public boolean isActive() {
+        return isActive;
+    }
+
+    // Transformers
     public void chargeByOne() {
-        if (percentage < 100) {
+        if(percentage < 100) {
             percentage++;
         }
     }
 
     public void dischargeByOne() {
-        if (percentage > 0) {
+        if(isActive && percentage > 0) {
             percentage--;
         }
+    }
+
+    public void turnOn() {
+        isActive = true;
+    }
+
+    public void turnOff() {
+        isActive = false;
     }
 
     public String displayVisualRepresentation() {
