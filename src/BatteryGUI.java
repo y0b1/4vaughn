@@ -7,9 +7,12 @@ public class BatteryGUI {
     private static Battery battery;
     private static JLabel batteryLabel;
     private static JLabel visualLabel;
+    private static JLabel indicatorDotLabel;
     private static Timer dischargeTimer;
     private static Timer chargeTimer;
     private static JToggleButton toggleButton;
+    private static JButton onButton;
+    private static JButton offButton;
 
     public static void main(String[] args) {
         battery = new Battery(100);
@@ -21,18 +24,32 @@ public class BatteryGUI {
         frame.getContentPane().setBackground(Color.DARK_GRAY);
 
         visualLabel = new JLabel(battery.displayVisualRepresentation(), SwingConstants.CENTER);
-        visualLabel.setBounds(100, 10, 200, 30);
+        visualLabel.setBounds(95, 10, 200, 30);
         visualLabel.setForeground(Color.GREEN);
         frame.add(visualLabel);
 
         batteryLabel = new JLabel(battery.displayStatus(), SwingConstants.CENTER);
-        batteryLabel.setBounds(100, 50, 200, 30);
+        batteryLabel.setBounds(99, 50, 200, 30);
         batteryLabel.setForeground(Color.WHITE);
         frame.add(batteryLabel);
 
+        indicatorDotLabel = new JLabel(".");
+        indicatorDotLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+        indicatorDotLabel.setBounds(190, 7, 50, 50);
+        indicatorDotLabel.setForeground(Color.RED);
+        frame.add(indicatorDotLabel);
+
         toggleButton = new JToggleButton("Plug in Charger");
-        toggleButton.setBounds(130, 100, 140, 30);
+        toggleButton.setBounds(45, 100, 140, 30);
         frame.add(toggleButton);
+
+        onButton = new JButton("On");
+        onButton.setBounds(210, 100, 60, 30);
+        frame.add(onButton);
+        
+        offButton = new JButton("Off");
+        offButton.setBounds(275, 100, 60, 30);
+        frame.add(offButton);
 
         toggleButton.addActionListener(new ActionListener() {
             @Override
@@ -46,6 +63,22 @@ public class BatteryGUI {
                     chargeTimer.stop();
                     dischargeTimer.start();
                 }
+            }
+        });
+
+        onButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                battery.turnOn();
+                indicatorDotLabel.setForeground(Color.GREEN);
+            }
+        });
+
+        offButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                battery.turnOff();
+                indicatorDotLabel.setForeground(Color.RED);
             }
         });
 
@@ -81,12 +114,17 @@ public class BatteryGUI {
                     JOptionPane.DEFAULT_OPTION,
                     JOptionPane.WARNING_MESSAGE,
                     null,
-                    new Object[]{"OK"},
-                    "OK"
+                    new Object[]{"Plug in Charger"},
+                    "Plug in Charger"
             );
 
             if (response == 0) {
-                System.exit(0);
+                toggleButton.setSelected(true);
+                toggleButton.setText("Unplug Charger");
+                dischargeTimer.stop();
+                chargeTimer.start();
+                battery.turnOff();
+                indicatorDotLabel.setForeground(Color.RED);
             }
         }
     }
